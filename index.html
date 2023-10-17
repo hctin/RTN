@@ -1,0 +1,1815 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>CSDL QUẢN LÝ RÁC THẢI NHỰA THÔNG MINH</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Slngrcthinhaphtsinhkgngy_1.js"></script>
+        <script src="data/CSDLslngkhchtrungbnhngy_2.js"></script>
+        <script src="data/CSDLloihnhkinhdoanh_3.js"></script>
+        <script src="data/CSDLimphtsinhRTN_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[16.428147427596645,107.5426150084044],[16.48981944009667,107.63885850534624]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_Slngrcthinhaphtsinhkgngy_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STT'] !== null ? autolinker.link(feature.properties['STT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Phường/ xã</th>\
+                        <td>' + (feature.properties['Phuong xa'] !== null ? autolinker.link(feature.properties['Phuong xa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thành phố</th>\
+                        <td>' + (feature.properties['Thanh pho'] !== null ? autolinker.link(feature.properties['Thanh pho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Dia chi'] !== null ? autolinker.link(feature.properties['Dia chi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tên cửa hàng</th>\
+                        <td>' + (feature.properties['Ten quan'] !== null ? autolinker.link(feature.properties['Ten quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Loại hình kinh doanh</th>\
+                        <td>' + (feature.properties['Loai hinh quan'] !== null ? autolinker.link(feature.properties['Loai hinh quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nguoi khao sat'] !== null ? autolinker.link(feature.properties['Nguoi khao sat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Tuoi'] !== null ? autolinker.link(feature.properties['Tuoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Gioi tinh'] !== null ? autolinker.link(feature.properties['Gioi tinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen mon'] !== null ? autolinker.link(feature.properties['Chuyen mon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuc vu'] !== null ? autolinker.link(feature.properties['Chuc vu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Số lượng khách hàng trung bình/ngày</th>\
+                        <td>' + (feature.properties['So luong khach TB'] !== null ? autolinker.link(feature.properties['So luong khach TB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Số lượng khách hàng mang về trung bình/ngày</th>\
+                        <td>' + (feature.properties['So luong mua order'] !== null ? autolinker.link(feature.properties['So luong mua order'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ty le ngoi tai quan'] !== null ? autolinker.link(feature.properties['Ty le ngoi tai quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ty le mang ve'] !== null ? autolinker.link(feature.properties['Ty le mang ve'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Số lượng rác thải sinh hoạt phát sinh(kg/ngày)</th>\
+                        <td>' + (feature.properties['So kg ra-ngay'] !== null ? autolinker.link(feature.properties['So kg ra-ngay'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Loai hinh SIP nhieu nhat</th>\
+                        <td>' + (feature.properties['Loai hinh SIP nhieu nhat'] !== null ? autolinker.link(feature.properties['Loai hinh SIP nhieu nhat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_20'] !== null ? autolinker.link(feature.properties['field_20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_21'] !== null ? autolinker.link(feature.properties['field_21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_22'] !== null ? autolinker.link(feature.properties['field_22'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_23'] !== null ? autolinker.link(feature.properties['field_23'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_24'] !== null ? autolinker.link(feature.properties['field_24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_25'] !== null ? autolinker.link(feature.properties['field_25'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Co thuc hien PLRTN</strong><br />' + (feature.properties['Co thuc hien PLRTN'] !== null ? autolinker.link(feature.properties['Co thuc hien PLRTN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Chuyen doi SUP sang SP Xanh</th>\
+                        <td>' + (feature.properties['Chuyen doi SUP sang SP Xanh'] !== null ? autolinker.link(feature.properties['Chuyen doi SUP sang SP Xanh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ap dung bien phap giam SUP</th>\
+                        <td>' + (feature.properties['Ap dung bien phap giam SUP'] !== null ? autolinker.link(feature.properties['Ap dung bien phap giam SUP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_29'] !== null ? autolinker.link(feature.properties['field_29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_30'] !== null ? autolinker.link(feature.properties['field_30'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_31'] !== null ? autolinker.link(feature.properties['field_31'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_32'] !== null ? autolinker.link(feature.properties['field_32'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y kien khac'] !== null ? autolinker.link(feature.properties['Y kien khac'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Slngrcthinhaphtsinhkgngy_1_0(feature) {
+            if (feature.properties['So kg ra-ngay'] >= 1.000000 && feature.properties['So kg ra-ngay'] <= 1.750000 ) {
+                return {
+                pane: 'pane_Slngrcthinhaphtsinhkgngy_1',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(255,248,249,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(68,1,84,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So kg ra-ngay'] >= 1.750000 && feature.properties['So kg ra-ngay'] <= 2.500000 ) {
+                return {
+                pane: 'pane_Slngrcthinhaphtsinhkgngy_1',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(255,248,249,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(49,104,142,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So kg ra-ngay'] >= 2.500000 && feature.properties['So kg ra-ngay'] <= 3.250000 ) {
+                return {
+                pane: 'pane_Slngrcthinhaphtsinhkgngy_1',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(255,248,249,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(53,183,121,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So kg ra-ngay'] >= 3.250000 && feature.properties['So kg ra-ngay'] <= 4.000000 ) {
+                return {
+                pane: 'pane_Slngrcthinhaphtsinhkgngy_1',
+                radius: 6.8,
+                opacity: 1,
+                color: 'rgba(255,248,249,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,231,37,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Slngrcthinhaphtsinhkgngy_1');
+        map.getPane('pane_Slngrcthinhaphtsinhkgngy_1').style.zIndex = 401;
+        map.getPane('pane_Slngrcthinhaphtsinhkgngy_1').style['mix-blend-mode'] = 'normal';
+        var layer_Slngrcthinhaphtsinhkgngy_1 = new L.geoJson(json_Slngrcthinhaphtsinhkgngy_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Slngrcthinhaphtsinhkgngy_1',
+            layerName: 'layer_Slngrcthinhaphtsinhkgngy_1',
+            pane: 'pane_Slngrcthinhaphtsinhkgngy_1',
+            onEachFeature: pop_Slngrcthinhaphtsinhkgngy_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Slngrcthinhaphtsinhkgngy_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Slngrcthinhaphtsinhkgngy_1);
+        map.addLayer(layer_Slngrcthinhaphtsinhkgngy_1);
+        function pop_CSDLslngkhchtrungbnhngy_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STT'] !== null ? autolinker.link(feature.properties['STT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Phuong xa</th>\
+                        <td>' + (feature.properties['Phuong xa'] !== null ? autolinker.link(feature.properties['Phuong xa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thanh pho</th>\
+                        <td>' + (feature.properties['Thanh pho'] !== null ? autolinker.link(feature.properties['Thanh pho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Dia chi</th>\
+                        <td>' + (feature.properties['Dia chi'] !== null ? autolinker.link(feature.properties['Dia chi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ten quan</th>\
+                        <td>' + (feature.properties['Ten quan'] !== null ? autolinker.link(feature.properties['Ten quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Loai hinh</th>\
+                        <td>' + (feature.properties['Loai hinh'] !== null ? autolinker.link(feature.properties['Loai hinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nguoi khao'] !== null ? autolinker.link(feature.properties['Nguoi khao'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Tuoi'] !== null ? autolinker.link(feature.properties['Tuoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Gioi tinh'] !== null ? autolinker.link(feature.properties['Gioi tinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen mon'] !== null ? autolinker.link(feature.properties['Chuyen mon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuc vu'] !== null ? autolinker.link(feature.properties['Chuc vu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">So luong k</th>\
+                        <td>' + (feature.properties['So luong k'] !== null ? autolinker.link(feature.properties['So luong k'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">So luong m</th>\
+                        <td>' + (feature.properties['So luong m'] !== null ? autolinker.link(feature.properties['So luong m'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ty le ngoi</th>\
+                        <td>' + (feature.properties['Ty le ngoi'] !== null ? autolinker.link(feature.properties['Ty le ngoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ty le mang</th>\
+                        <td>' + (feature.properties['Ty le mang'] !== null ? autolinker.link(feature.properties['Ty le mang'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['So kg ra-n'] !== null ? autolinker.link(feature.properties['So kg ra-n'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Loai hin_1'] !== null ? autolinker.link(feature.properties['Loai hin_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_20'] !== null ? autolinker.link(feature.properties['field_20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_21'] !== null ? autolinker.link(feature.properties['field_21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_22'] !== null ? autolinker.link(feature.properties['field_22'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_23'] !== null ? autolinker.link(feature.properties['field_23'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_24'] !== null ? autolinker.link(feature.properties['field_24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_25'] !== null ? autolinker.link(feature.properties['field_25'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Co thuc hi'] !== null ? autolinker.link(feature.properties['Co thuc hi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen doi'] !== null ? autolinker.link(feature.properties['Chuyen doi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ap dung bi'] !== null ? autolinker.link(feature.properties['Ap dung bi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_29'] !== null ? autolinker.link(feature.properties['field_29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_30'] !== null ? autolinker.link(feature.properties['field_30'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_31'] !== null ? autolinker.link(feature.properties['field_31'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_32'] !== null ? autolinker.link(feature.properties['field_32'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y kien kha'] !== null ? autolinker.link(feature.properties['Y kien kha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CSDLslngkhchtrungbnhngy_2_0(feature) {
+            if (feature.properties['So luong k'] >= 1.000000 && feature.properties['So luong k'] <= 1.750000 ) {
+                return {
+                pane: 'pane_CSDLslngkhchtrungbnhngy_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,178,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So luong k'] >= 1.750000 && feature.properties['So luong k'] <= 2.500000 ) {
+                return {
+                pane: 'pane_CSDLslngkhchtrungbnhngy_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,183,81,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So luong k'] >= 2.500000 && feature.properties['So luong k'] <= 3.250000 ) {
+                return {
+                pane: 'pane_CSDLslngkhchtrungbnhngy_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(244,86,41,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['So luong k'] >= 3.250000 && feature.properties['So luong k'] <= 4.000000 ) {
+                return {
+                pane: 'pane_CSDLslngkhchtrungbnhngy_2',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,0,38,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_CSDLslngkhchtrungbnhngy_2');
+        map.getPane('pane_CSDLslngkhchtrungbnhngy_2').style.zIndex = 402;
+        map.getPane('pane_CSDLslngkhchtrungbnhngy_2').style['mix-blend-mode'] = 'normal';
+        var layer_CSDLslngkhchtrungbnhngy_2 = new L.geoJson(json_CSDLslngkhchtrungbnhngy_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CSDLslngkhchtrungbnhngy_2',
+            layerName: 'layer_CSDLslngkhchtrungbnhngy_2',
+            pane: 'pane_CSDLslngkhchtrungbnhngy_2',
+            onEachFeature: pop_CSDLslngkhchtrungbnhngy_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CSDLslngkhchtrungbnhngy_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CSDLslngkhchtrungbnhngy_2);
+        map.addLayer(layer_CSDLslngkhchtrungbnhngy_2);
+        function pop_CSDLloihnhkinhdoanh_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STT'] !== null ? autolinker.link(feature.properties['STT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Phuong xa</th>\
+                        <td>' + (feature.properties['Phuong xa'] !== null ? autolinker.link(feature.properties['Phuong xa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thanh pho</th>\
+                        <td>' + (feature.properties['Thanh pho'] !== null ? autolinker.link(feature.properties['Thanh pho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Dia chi</th>\
+                        <td>' + (feature.properties['Dia chi'] !== null ? autolinker.link(feature.properties['Dia chi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ten quan</th>\
+                        <td>' + (feature.properties['Ten quan'] !== null ? autolinker.link(feature.properties['Ten quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Loai hinh</th>\
+                        <td>' + (feature.properties['Loai hinh'] !== null ? autolinker.link(feature.properties['Loai hinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nguoi khao'] !== null ? autolinker.link(feature.properties['Nguoi khao'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Tuoi'] !== null ? autolinker.link(feature.properties['Tuoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Gioi tinh'] !== null ? autolinker.link(feature.properties['Gioi tinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen mon'] !== null ? autolinker.link(feature.properties['Chuyen mon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuc vu'] !== null ? autolinker.link(feature.properties['Chuc vu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['So luong k'] !== null ? autolinker.link(feature.properties['So luong k'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['So luong m'] !== null ? autolinker.link(feature.properties['So luong m'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ty le ngoi'] !== null ? autolinker.link(feature.properties['Ty le ngoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ty le mang'] !== null ? autolinker.link(feature.properties['Ty le mang'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['So kg ra-n'] !== null ? autolinker.link(feature.properties['So kg ra-n'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Loai hin_1'] !== null ? autolinker.link(feature.properties['Loai hin_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_20'] !== null ? autolinker.link(feature.properties['field_20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_21'] !== null ? autolinker.link(feature.properties['field_21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_22'] !== null ? autolinker.link(feature.properties['field_22'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_23'] !== null ? autolinker.link(feature.properties['field_23'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_24'] !== null ? autolinker.link(feature.properties['field_24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_25'] !== null ? autolinker.link(feature.properties['field_25'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Co thuc hi'] !== null ? autolinker.link(feature.properties['Co thuc hi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen doi'] !== null ? autolinker.link(feature.properties['Chuyen doi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ap dung bi'] !== null ? autolinker.link(feature.properties['Ap dung bi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_29'] !== null ? autolinker.link(feature.properties['field_29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_30'] !== null ? autolinker.link(feature.properties['field_30'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_31'] !== null ? autolinker.link(feature.properties['field_31'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_32'] !== null ? autolinker.link(feature.properties['field_32'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y kien kha'] !== null ? autolinker.link(feature.properties['Y kien kha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CSDLloihnhkinhdoanh_3_0(feature) {
+            switch(String(feature.properties['Loai hinh'])) {
+                case '1':
+                    return {
+                pane: 'pane_CSDLloihnhkinhdoanh_3',
+                radius: 7.2,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(165,31,100,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_CSDLloihnhkinhdoanh_3',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,40,70,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '3':
+                    return {
+                pane: 'pane_CSDLloihnhkinhdoanh_3',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(13,125,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_CSDLloihnhkinhdoanh_3',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,221,62,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_CSDLloihnhkinhdoanh_3');
+        map.getPane('pane_CSDLloihnhkinhdoanh_3').style.zIndex = 403;
+        map.getPane('pane_CSDLloihnhkinhdoanh_3').style['mix-blend-mode'] = 'normal';
+        var layer_CSDLloihnhkinhdoanh_3 = new L.geoJson(json_CSDLloihnhkinhdoanh_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CSDLloihnhkinhdoanh_3',
+            layerName: 'layer_CSDLloihnhkinhdoanh_3',
+            pane: 'pane_CSDLloihnhkinhdoanh_3',
+            onEachFeature: pop_CSDLloihnhkinhdoanh_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CSDLloihnhkinhdoanh_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CSDLloihnhkinhdoanh_3);
+        map.addLayer(layer_CSDLloihnhkinhdoanh_3);
+        function pop_CSDLimphtsinhRTN_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STT'] !== null ? autolinker.link(feature.properties['STT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Phường/ xã</th>\
+                        <td>' + (feature.properties['Phuong xa'] !== null ? autolinker.link(feature.properties['Phuong xa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thành phố</th>\
+                        <td>' + (feature.properties['Thanh pho'] !== null ? autolinker.link(feature.properties['Thanh pho'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Địa chỉ</th>\
+                        <td>' + (feature.properties['Dia chi'] !== null ? autolinker.link(feature.properties['Dia chi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tên cơ sở</th>\
+                        <td>' + (feature.properties['Ten quan'] !== null ? autolinker.link(feature.properties['Ten quan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Loai hinh'] !== null ? autolinker.link(feature.properties['Loai hinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Nguoi khao'] !== null ? autolinker.link(feature.properties['Nguoi khao'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Tuoi'] !== null ? autolinker.link(feature.properties['Tuoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Gioi tinh'] !== null ? autolinker.link(feature.properties['Gioi tinh'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen mon'] !== null ? autolinker.link(feature.properties['Chuyen mon'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Chuc vu</th>\
+                        <td>' + (feature.properties['Chuc vu'] !== null ? autolinker.link(feature.properties['Chuc vu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">So luong k</th>\
+                        <td>' + (feature.properties['So luong k'] !== null ? autolinker.link(feature.properties['So luong k'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">So luong m</th>\
+                        <td>' + (feature.properties['So luong m'] !== null ? autolinker.link(feature.properties['So luong m'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ty le ngoi</th>\
+                        <td>' + (feature.properties['Ty le ngoi'] !== null ? autolinker.link(feature.properties['Ty le ngoi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ty le mang</th>\
+                        <td>' + (feature.properties['Ty le mang'] !== null ? autolinker.link(feature.properties['Ty le mang'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['So kg ra-n'] !== null ? autolinker.link(feature.properties['So kg ra-n'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Loai hin_1'] !== null ? autolinker.link(feature.properties['Loai hin_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_20'] !== null ? autolinker.link(feature.properties['field_20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_21'] !== null ? autolinker.link(feature.properties['field_21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_22'] !== null ? autolinker.link(feature.properties['field_22'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_23'] !== null ? autolinker.link(feature.properties['field_23'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_24'] !== null ? autolinker.link(feature.properties['field_24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_25'] !== null ? autolinker.link(feature.properties['field_25'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Co thuc hi'] !== null ? autolinker.link(feature.properties['Co thuc hi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Chuyen doi'] !== null ? autolinker.link(feature.properties['Chuyen doi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Ap dung bi'] !== null ? autolinker.link(feature.properties['Ap dung bi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_29'] !== null ? autolinker.link(feature.properties['field_29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_30'] !== null ? autolinker.link(feature.properties['field_30'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_31'] !== null ? autolinker.link(feature.properties['field_31'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['field_32'] !== null ? autolinker.link(feature.properties['field_32'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y kien kha'] !== null ? autolinker.link(feature.properties['Y kien kha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CSDLimphtsinhRTN_4_0() {
+            return {
+                pane: 'pane_CSDLimphtsinhRTN_4',
+                radius: 6.400000000000002,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,116,202,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CSDLimphtsinhRTN_4');
+        map.getPane('pane_CSDLimphtsinhRTN_4').style.zIndex = 404;
+        map.getPane('pane_CSDLimphtsinhRTN_4').style['mix-blend-mode'] = 'normal';
+        var layer_CSDLimphtsinhRTN_4 = new L.geoJson(json_CSDLimphtsinhRTN_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CSDLimphtsinhRTN_4',
+            layerName: 'layer_CSDLimphtsinhRTN_4',
+            pane: 'pane_CSDLimphtsinhRTN_4',
+            onEachFeature: pop_CSDLimphtsinhRTN_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CSDLimphtsinhRTN_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CSDLimphtsinhRTN_4);
+        map.addLayer(layer_CSDLimphtsinhRTN_4);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>CSDL QUẢN LÝ RÁC THẢI NHỰA THÔNG MINH</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'topright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Cổng thông tin phục vụ quản lý rác thải nhựa thông minh ở thành phố Huế.';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/CSDLimphtsinhRTN_4.png" /> CSDL điểm phát sinh RTN': layer_CSDLimphtsinhRTN_4,'CSDL loại hình kinh doanh<br /><table><tr><td style="text-align: center;"><img src="legend/CSDLloihnhkinhdoanh_3_Quánbánhmì0.png" /></td><td>Quán bánh mì</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLloihnhkinhdoanh_3_Quánăn1.png" /></td><td>Quán ăn</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLloihnhkinhdoanh_3_Quántràsữa2.png" /></td><td>Quán trà sữa</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLloihnhkinhdoanh_3_Quáncàphê3.png" /></td><td>Quán cà phê</td></tr></table>': layer_CSDLloihnhkinhdoanh_3,'CSDL số lượng khách trung bình/ngày<br /><table><tr><td style="text-align: center;"><img src="legend/CSDLslngkhchtrungbnhngy_2_1000.png" /></td><td><100</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLslngkhchtrungbnhngy_2_1002001.png" /></td><td>100-200</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLslngkhchtrungbnhngy_2_2005002.png" /></td><td>200-500</td></tr><tr><td style="text-align: center;"><img src="legend/CSDLslngkhchtrungbnhngy_2_5003.png" /></td><td>>500</td></tr></table>': layer_CSDLslngkhchtrungbnhngy_2,'Số lượng rác thải nhựa phát sinh (kg/ngày)<br /><table><tr><td style="text-align: center;"><img src="legend/Slngrcthinhaphtsinhkgngy_1_20.png" /></td><td>< 2</td></tr><tr><td style="text-align: center;"><img src="legend/Slngrcthinhaphtsinhkgngy_1_251.png" /></td><td>2 - 5</td></tr><tr><td style="text-align: center;"><img src="legend/Slngrcthinhaphtsinhkgngy_1_5102.png" /></td><td>5 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Slngrcthinhaphtsinhkgngy_1_103.png" /></td><td>>10</td></tr></table>': layer_Slngrcthinhaphtsinhkgngy_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_CSDLrcthinhaphtsinh_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Ten quan'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Loai hinh SIP nhieu nhat": "bool","Chuyen doi SUP sang SP Xanh": "bool","field_20": "bool","Gioi tinh": "bool","Ap dung bien phap giam SUP": "bool","Loai hinh": "int","Ty le mang ve": "int","Ty le mang": "int","So kg ra-ngay": "int","So luong khach TB": "int","Chuyen mon": "int","Co thuc hien PLRTN": "int","Loai hinh quan": "int","So kg ra-n": "int","field_31": "int","Chuyen doi": "int","field_20": "int","Nguoi khao sat": "str","Y kien khac": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_LoaihinhSIPnhieunhat = document.createElement('div');
+            div_LoaihinhSIPnhieunhat.id = "div_LoaihinhSIPnhieunhat";
+            div_LoaihinhSIPnhieunhat.className= "filterselect";
+            document.getElementById("menu").appendChild(div_LoaihinhSIPnhieunhat);
+            sel_LoaihinhSIPnhieunhat = document.createElement('select');
+            sel_LoaihinhSIPnhieunhat.multiple = true;
+            sel_LoaihinhSIPnhieunhat.size = 2;
+            sel_LoaihinhSIPnhieunhat.id = "sel_LoaihinhSIPnhieunhat";
+            var LoaihinhSIPnhieunhat_options_str = "<option value='' unselected></option>";
+            sel_LoaihinhSIPnhieunhat.onchange = function(){filterFunc()};
+            LoaihinhSIPnhieunhat_options_str  += '<option value="true">true</option>';
+            LoaihinhSIPnhieunhat_options_str  += '<option value="false">false</option>';
+            sel_LoaihinhSIPnhieunhat.innerHTML = LoaihinhSIPnhieunhat_options_str;
+            div_LoaihinhSIPnhieunhat.appendChild(sel_LoaihinhSIPnhieunhat);
+            var lab_LoaihinhSIPnhieunhat = document.createElement('div');
+            lab_LoaihinhSIPnhieunhat.innerHTML = 'Loai hinh SIP nhieu nhat';
+            lab_LoaihinhSIPnhieunhat.className = 'filterlabel';
+            div_LoaihinhSIPnhieunhat.appendChild(lab_LoaihinhSIPnhieunhat);
+            var reset_LoaihinhSIPnhieunhat = document.createElement('div');
+            reset_LoaihinhSIPnhieunhat.innerHTML = 'clear filter';
+            reset_LoaihinhSIPnhieunhat.className = 'filterlabel';
+            reset_LoaihinhSIPnhieunhat.onclick = function() {
+                var options = document.getElementById("sel_LoaihinhSIPnhieunhat").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_LoaihinhSIPnhieunhat.appendChild(reset_LoaihinhSIPnhieunhat);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_ChuyendoiSUPsangSPXanh = document.createElement('div');
+            div_ChuyendoiSUPsangSPXanh.id = "div_ChuyendoiSUPsangSPXanh";
+            div_ChuyendoiSUPsangSPXanh.className= "filterselect";
+            document.getElementById("menu").appendChild(div_ChuyendoiSUPsangSPXanh);
+            sel_ChuyendoiSUPsangSPXanh = document.createElement('select');
+            sel_ChuyendoiSUPsangSPXanh.multiple = true;
+            sel_ChuyendoiSUPsangSPXanh.size = 2;
+            sel_ChuyendoiSUPsangSPXanh.id = "sel_ChuyendoiSUPsangSPXanh";
+            var ChuyendoiSUPsangSPXanh_options_str = "<option value='' unselected></option>";
+            sel_ChuyendoiSUPsangSPXanh.onchange = function(){filterFunc()};
+            ChuyendoiSUPsangSPXanh_options_str  += '<option value="true">true</option>';
+            ChuyendoiSUPsangSPXanh_options_str  += '<option value="false">false</option>';
+            sel_ChuyendoiSUPsangSPXanh.innerHTML = ChuyendoiSUPsangSPXanh_options_str;
+            div_ChuyendoiSUPsangSPXanh.appendChild(sel_ChuyendoiSUPsangSPXanh);
+            var lab_ChuyendoiSUPsangSPXanh = document.createElement('div');
+            lab_ChuyendoiSUPsangSPXanh.innerHTML = 'Chuyen doi SUP sang SP Xanh';
+            lab_ChuyendoiSUPsangSPXanh.className = 'filterlabel';
+            div_ChuyendoiSUPsangSPXanh.appendChild(lab_ChuyendoiSUPsangSPXanh);
+            var reset_ChuyendoiSUPsangSPXanh = document.createElement('div');
+            reset_ChuyendoiSUPsangSPXanh.innerHTML = 'clear filter';
+            reset_ChuyendoiSUPsangSPXanh.className = 'filterlabel';
+            reset_ChuyendoiSUPsangSPXanh.onclick = function() {
+                var options = document.getElementById("sel_ChuyendoiSUPsangSPXanh").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_ChuyendoiSUPsangSPXanh.appendChild(reset_ChuyendoiSUPsangSPXanh);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_field_20 = document.createElement('div');
+            div_field_20.id = "div_field_20";
+            div_field_20.className= "filterselect";
+            document.getElementById("menu").appendChild(div_field_20);
+            sel_field_20 = document.createElement('select');
+            sel_field_20.multiple = true;
+            sel_field_20.size = 2;
+            sel_field_20.id = "sel_field_20";
+            var field_20_options_str = "<option value='' unselected></option>";
+            sel_field_20.onchange = function(){filterFunc()};
+            field_20_options_str  += '<option value="true">true</option>';
+            field_20_options_str  += '<option value="false">false</option>';
+            sel_field_20.innerHTML = field_20_options_str;
+            div_field_20.appendChild(sel_field_20);
+            var lab_field_20 = document.createElement('div');
+            lab_field_20.innerHTML = 'field_20';
+            lab_field_20.className = 'filterlabel';
+            div_field_20.appendChild(lab_field_20);
+            var reset_field_20 = document.createElement('div');
+            reset_field_20.innerHTML = 'clear filter';
+            reset_field_20.className = 'filterlabel';
+            reset_field_20.onclick = function() {
+                var options = document.getElementById("sel_field_20").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_field_20.appendChild(reset_field_20);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Gioitinh = document.createElement('div');
+            div_Gioitinh.id = "div_Gioitinh";
+            div_Gioitinh.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Gioitinh);
+            sel_Gioitinh = document.createElement('select');
+            sel_Gioitinh.multiple = true;
+            sel_Gioitinh.size = 2;
+            sel_Gioitinh.id = "sel_Gioitinh";
+            var Gioitinh_options_str = "<option value='' unselected></option>";
+            sel_Gioitinh.onchange = function(){filterFunc()};
+            Gioitinh_options_str  += '<option value="true">true</option>';
+            Gioitinh_options_str  += '<option value="false">false</option>';
+            sel_Gioitinh.innerHTML = Gioitinh_options_str;
+            div_Gioitinh.appendChild(sel_Gioitinh);
+            var lab_Gioitinh = document.createElement('div');
+            lab_Gioitinh.innerHTML = 'Gioi tinh';
+            lab_Gioitinh.className = 'filterlabel';
+            div_Gioitinh.appendChild(lab_Gioitinh);
+            var reset_Gioitinh = document.createElement('div');
+            reset_Gioitinh.innerHTML = 'clear filter';
+            reset_Gioitinh.className = 'filterlabel';
+            reset_Gioitinh.onclick = function() {
+                var options = document.getElementById("sel_Gioitinh").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Gioitinh.appendChild(reset_Gioitinh);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_ApdungbienphapgiamSUP = document.createElement('div');
+            div_ApdungbienphapgiamSUP.id = "div_ApdungbienphapgiamSUP";
+            div_ApdungbienphapgiamSUP.className= "filterselect";
+            document.getElementById("menu").appendChild(div_ApdungbienphapgiamSUP);
+            sel_ApdungbienphapgiamSUP = document.createElement('select');
+            sel_ApdungbienphapgiamSUP.multiple = true;
+            sel_ApdungbienphapgiamSUP.size = 2;
+            sel_ApdungbienphapgiamSUP.id = "sel_ApdungbienphapgiamSUP";
+            var ApdungbienphapgiamSUP_options_str = "<option value='' unselected></option>";
+            sel_ApdungbienphapgiamSUP.onchange = function(){filterFunc()};
+            ApdungbienphapgiamSUP_options_str  += '<option value="true">true</option>';
+            ApdungbienphapgiamSUP_options_str  += '<option value="false">false</option>';
+            sel_ApdungbienphapgiamSUP.innerHTML = ApdungbienphapgiamSUP_options_str;
+            div_ApdungbienphapgiamSUP.appendChild(sel_ApdungbienphapgiamSUP);
+            var lab_ApdungbienphapgiamSUP = document.createElement('div');
+            lab_ApdungbienphapgiamSUP.innerHTML = 'Ap dung bien phap giam SUP';
+            lab_ApdungbienphapgiamSUP.className = 'filterlabel';
+            div_ApdungbienphapgiamSUP.appendChild(lab_ApdungbienphapgiamSUP);
+            var reset_ApdungbienphapgiamSUP = document.createElement('div');
+            reset_ApdungbienphapgiamSUP.innerHTML = 'clear filter';
+            reset_ApdungbienphapgiamSUP.className = 'filterlabel';
+            reset_ApdungbienphapgiamSUP.onclick = function() {
+                var options = document.getElementById("sel_ApdungbienphapgiamSUP").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_ApdungbienphapgiamSUP.appendChild(reset_ApdungbienphapgiamSUP);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Loaihinh = document.createElement("div");
+            div_Loaihinh.id = "div_Loaihinh";
+            div_Loaihinh.className = "slider";
+            document.getElementById("menu").appendChild(div_Loaihinh);
+            var lab_Loaihinh = document.createElement('div');
+            lab_Loaihinh.innerHTML  = 'Loai hinh: <span id="val_Loaihinh"></span>';
+            lab_Loaihinh.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Loaihinh);
+            var reset_Loaihinh = document.createElement('div');
+            reset_Loaihinh.innerHTML = 'clear filter';
+            reset_Loaihinh.className = 'filterlabel';
+            lab_Loaihinh.className = 'filterlabel';
+            reset_Loaihinh.onclick = function() {
+                sel_Loaihinh.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Loaihinh);
+            var sel_Loaihinh = document.getElementById('div_Loaihinh');
+            noUiSlider.create(sel_Loaihinh, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_Loaihinh.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Loaihinh = document.getElementById('val_Loaihinh');
+            val_Loaihinh.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Tylemangve = document.createElement("div");
+            div_Tylemangve.id = "div_Tylemangve";
+            div_Tylemangve.className = "slider";
+            document.getElementById("menu").appendChild(div_Tylemangve);
+            var lab_Tylemangve = document.createElement('div');
+            lab_Tylemangve.innerHTML  = 'Ty le mang ve: <span id="val_Tylemangve"></span>';
+            lab_Tylemangve.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Tylemangve);
+            var reset_Tylemangve = document.createElement('div');
+            reset_Tylemangve.innerHTML = 'clear filter';
+            reset_Tylemangve.className = 'filterlabel';
+            lab_Tylemangve.className = 'filterlabel';
+            reset_Tylemangve.onclick = function() {
+                sel_Tylemangve.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Tylemangve);
+            var sel_Tylemangve = document.getElementById('div_Tylemangve');
+            noUiSlider.create(sel_Tylemangve, {
+                connect: true,
+                start: [0, 100],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 100
+                }
+            });
+            sel_Tylemangve.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Tylemangve = document.getElementById('val_Tylemangve');
+            val_Tylemangve.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Tylemang = document.createElement("div");
+            div_Tylemang.id = "div_Tylemang";
+            div_Tylemang.className = "slider";
+            document.getElementById("menu").appendChild(div_Tylemang);
+            var lab_Tylemang = document.createElement('div');
+            lab_Tylemang.innerHTML  = 'Ty le mang: <span id="val_Tylemang"></span>';
+            lab_Tylemang.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Tylemang);
+            var reset_Tylemang = document.createElement('div');
+            reset_Tylemang.innerHTML = 'clear filter';
+            reset_Tylemang.className = 'filterlabel';
+            lab_Tylemang.className = 'filterlabel';
+            reset_Tylemang.onclick = function() {
+                sel_Tylemang.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Tylemang);
+            var sel_Tylemang = document.getElementById('div_Tylemang');
+            noUiSlider.create(sel_Tylemang, {
+                connect: true,
+                start: [0, 100],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 100
+                }
+            });
+            sel_Tylemang.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Tylemang = document.getElementById('val_Tylemang');
+            val_Tylemang.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Sokgrangay = document.createElement("div");
+            div_Sokgrangay.id = "div_Sokgrangay";
+            div_Sokgrangay.className = "slider";
+            document.getElementById("menu").appendChild(div_Sokgrangay);
+            var lab_Sokgrangay = document.createElement('div');
+            lab_Sokgrangay.innerHTML  = 'So kg ra-ngay: <span id="val_Sokgrangay"></span>';
+            lab_Sokgrangay.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Sokgrangay);
+            var reset_Sokgrangay = document.createElement('div');
+            reset_Sokgrangay.innerHTML = 'clear filter';
+            reset_Sokgrangay.className = 'filterlabel';
+            lab_Sokgrangay.className = 'filterlabel';
+            reset_Sokgrangay.onclick = function() {
+                sel_Sokgrangay.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Sokgrangay);
+            var sel_Sokgrangay = document.getElementById('div_Sokgrangay');
+            noUiSlider.create(sel_Sokgrangay, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_Sokgrangay.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Sokgrangay = document.getElementById('val_Sokgrangay');
+            val_Sokgrangay.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_SoluongkhachTB = document.createElement("div");
+            div_SoluongkhachTB.id = "div_SoluongkhachTB";
+            div_SoluongkhachTB.className = "slider";
+            document.getElementById("menu").appendChild(div_SoluongkhachTB);
+            var lab_SoluongkhachTB = document.createElement('div');
+            lab_SoluongkhachTB.innerHTML  = 'So luong khach TB: <span id="val_SoluongkhachTB"></span>';
+            lab_SoluongkhachTB.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_SoluongkhachTB);
+            var reset_SoluongkhachTB = document.createElement('div');
+            reset_SoluongkhachTB.innerHTML = 'clear filter';
+            reset_SoluongkhachTB.className = 'filterlabel';
+            lab_SoluongkhachTB.className = 'filterlabel';
+            reset_SoluongkhachTB.onclick = function() {
+                sel_SoluongkhachTB.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_SoluongkhachTB);
+            var sel_SoluongkhachTB = document.getElementById('div_SoluongkhachTB');
+            noUiSlider.create(sel_SoluongkhachTB, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_SoluongkhachTB.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_SoluongkhachTB = document.getElementById('val_SoluongkhachTB');
+            val_SoluongkhachTB.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Chuyenmon = document.createElement("div");
+            div_Chuyenmon.id = "div_Chuyenmon";
+            div_Chuyenmon.className = "slider";
+            document.getElementById("menu").appendChild(div_Chuyenmon);
+            var lab_Chuyenmon = document.createElement('div');
+            lab_Chuyenmon.innerHTML  = 'Chuyen mon: <span id="val_Chuyenmon"></span>';
+            lab_Chuyenmon.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Chuyenmon);
+            var reset_Chuyenmon = document.createElement('div');
+            reset_Chuyenmon.innerHTML = 'clear filter';
+            reset_Chuyenmon.className = 'filterlabel';
+            lab_Chuyenmon.className = 'filterlabel';
+            reset_Chuyenmon.onclick = function() {
+                sel_Chuyenmon.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Chuyenmon);
+            var sel_Chuyenmon = document.getElementById('div_Chuyenmon');
+            noUiSlider.create(sel_Chuyenmon, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_Chuyenmon.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Chuyenmon = document.getElementById('val_Chuyenmon');
+            val_Chuyenmon.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CothuchienPLRTN = document.createElement("div");
+            div_CothuchienPLRTN.id = "div_CothuchienPLRTN";
+            div_CothuchienPLRTN.className = "slider";
+            document.getElementById("menu").appendChild(div_CothuchienPLRTN);
+            var lab_CothuchienPLRTN = document.createElement('div');
+            lab_CothuchienPLRTN.innerHTML  = 'Co thuc hien PLRTN: <span id="val_CothuchienPLRTN"></span>';
+            lab_CothuchienPLRTN.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_CothuchienPLRTN);
+            var reset_CothuchienPLRTN = document.createElement('div');
+            reset_CothuchienPLRTN.innerHTML = 'clear filter';
+            reset_CothuchienPLRTN.className = 'filterlabel';
+            lab_CothuchienPLRTN.className = 'filterlabel';
+            reset_CothuchienPLRTN.onclick = function() {
+                sel_CothuchienPLRTN.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_CothuchienPLRTN);
+            var sel_CothuchienPLRTN = document.getElementById('div_CothuchienPLRTN');
+            noUiSlider.create(sel_CothuchienPLRTN, {
+                connect: true,
+                start: [0, 3],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 3
+                }
+            });
+            sel_CothuchienPLRTN.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_CothuchienPLRTN = document.getElementById('val_CothuchienPLRTN');
+            val_CothuchienPLRTN.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Loaihinhquan = document.createElement("div");
+            div_Loaihinhquan.id = "div_Loaihinhquan";
+            div_Loaihinhquan.className = "slider";
+            document.getElementById("menu").appendChild(div_Loaihinhquan);
+            var lab_Loaihinhquan = document.createElement('div');
+            lab_Loaihinhquan.innerHTML  = 'Loai hinh quan: <span id="val_Loaihinhquan"></span>';
+            lab_Loaihinhquan.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Loaihinhquan);
+            var reset_Loaihinhquan = document.createElement('div');
+            reset_Loaihinhquan.innerHTML = 'clear filter';
+            reset_Loaihinhquan.className = 'filterlabel';
+            lab_Loaihinhquan.className = 'filterlabel';
+            reset_Loaihinhquan.onclick = function() {
+                sel_Loaihinhquan.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Loaihinhquan);
+            var sel_Loaihinhquan = document.getElementById('div_Loaihinhquan');
+            noUiSlider.create(sel_Loaihinhquan, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_Loaihinhquan.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Loaihinhquan = document.getElementById('val_Loaihinhquan');
+            val_Loaihinhquan.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Sokgran = document.createElement("div");
+            div_Sokgran.id = "div_Sokgran";
+            div_Sokgran.className = "slider";
+            document.getElementById("menu").appendChild(div_Sokgran);
+            var lab_Sokgran = document.createElement('div');
+            lab_Sokgran.innerHTML  = 'So kg ra-n: <span id="val_Sokgran"></span>';
+            lab_Sokgran.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Sokgran);
+            var reset_Sokgran = document.createElement('div');
+            reset_Sokgran.innerHTML = 'clear filter';
+            reset_Sokgran.className = 'filterlabel';
+            lab_Sokgran.className = 'filterlabel';
+            reset_Sokgran.onclick = function() {
+                sel_Sokgran.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Sokgran);
+            var sel_Sokgran = document.getElementById('div_Sokgran');
+            noUiSlider.create(sel_Sokgran, {
+                connect: true,
+                start: [NULL, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: NULL,
+                max: 4
+                }
+            });
+            sel_Sokgran.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Sokgran = document.getElementById('val_Sokgran');
+            val_Sokgran.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_field_31 = document.createElement("div");
+            div_field_31.id = "div_field_31";
+            div_field_31.className = "slider";
+            document.getElementById("menu").appendChild(div_field_31);
+            var lab_field_31 = document.createElement('div');
+            lab_field_31.innerHTML  = 'field_31: <span id="val_field_31"></span>';
+            lab_field_31.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_field_31);
+            var reset_field_31 = document.createElement('div');
+            reset_field_31.innerHTML = 'clear filter';
+            reset_field_31.className = 'filterlabel';
+            lab_field_31.className = 'filterlabel';
+            reset_field_31.onclick = function() {
+                sel_field_31.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_field_31);
+            var sel_field_31 = document.getElementById('div_field_31');
+            noUiSlider.create(sel_field_31, {
+                connect: true,
+                start: [0, 1],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 1
+                }
+            });
+            sel_field_31.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_field_31 = document.getElementById('val_field_31');
+            val_field_31.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Chuyendoi = document.createElement("div");
+            div_Chuyendoi.id = "div_Chuyendoi";
+            div_Chuyendoi.className = "slider";
+            document.getElementById("menu").appendChild(div_Chuyendoi);
+            var lab_Chuyendoi = document.createElement('div');
+            lab_Chuyendoi.innerHTML  = 'Chuyen doi: <span id="val_Chuyendoi"></span>';
+            lab_Chuyendoi.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Chuyendoi);
+            var reset_Chuyendoi = document.createElement('div');
+            reset_Chuyendoi.innerHTML = 'clear filter';
+            reset_Chuyendoi.className = 'filterlabel';
+            lab_Chuyendoi.className = 'filterlabel';
+            reset_Chuyendoi.onclick = function() {
+                sel_Chuyendoi.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Chuyendoi);
+            var sel_Chuyendoi = document.getElementById('div_Chuyendoi');
+            noUiSlider.create(sel_Chuyendoi, {
+                connect: true,
+                start: [0, 1],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 1
+                }
+            });
+            sel_Chuyendoi.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Chuyendoi = document.getElementById('val_Chuyendoi');
+            val_Chuyendoi.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_field_20 = document.createElement("div");
+            div_field_20.id = "div_field_20";
+            div_field_20.className = "slider";
+            document.getElementById("menu").appendChild(div_field_20);
+            var lab_field_20 = document.createElement('div');
+            lab_field_20.innerHTML  = 'field_20: <span id="val_field_20"></span>';
+            lab_field_20.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_field_20);
+            var reset_field_20 = document.createElement('div');
+            reset_field_20.innerHTML = 'clear filter';
+            reset_field_20.className = 'filterlabel';
+            lab_field_20.className = 'filterlabel';
+            reset_field_20.onclick = function() {
+                sel_field_20.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_field_20);
+            var sel_field_20 = document.getElementById('div_field_20');
+            noUiSlider.create(sel_field_20, {
+                connect: true,
+                start: [0, 1],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 1
+                }
+            });
+            sel_field_20.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_field_20 = document.getElementById('val_field_20');
+            val_field_20.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Nguoikhaosat = document.createElement('div');
+            div_Nguoikhaosat.id = "div_Nguoikhaosat";
+            div_Nguoikhaosat.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Nguoikhaosat);
+            sel_Nguoikhaosat = document.createElement('select');
+            sel_Nguoikhaosat.multiple = true;
+            sel_Nguoikhaosat.size = 10;
+            sel_Nguoikhaosat.id = "sel_Nguoikhaosat";
+            var Nguoikhaosat_options_str = "<option value='' unselected></option>";
+            sel_Nguoikhaosat.onchange = function(){filterFunc()};
+            Nguoikhaosat_options_str  += '<option value="NULL">NULL</option>';
+            Nguoikhaosat_options_str  += '<option value="An Bình">An Bình</option>';
+            Nguoikhaosat_options_str  += '<option value="Anh Thư">Anh Thư</option>';
+            Nguoikhaosat_options_str  += '<option value="Binh Chỉ Vinh">Binh Chỉ Vinh</option>';
+            Nguoikhaosat_options_str  += '<option value="Bảo Ngọc">Bảo Ngọc</option>';
+            Nguoikhaosat_options_str  += '<option value="Châu Thị Thuận">Châu Thị Thuận</option>';
+            Nguoikhaosat_options_str  += '<option value="Hiền">Hiền</option>';
+            Nguoikhaosat_options_str  += '<option value="Hoàng Thị Hương Thanh">Hoàng Thị Hương Thanh</option>';
+            Nguoikhaosat_options_str  += '<option value="Huỳnh Thị Thảo">Huỳnh Thị Thảo</option>';
+            Nguoikhaosat_options_str  += '<option value="Hồ Thị Anh Chi">Hồ Thị Anh Chi</option>';
+            Nguoikhaosat_options_str  += '<option value="Lê Thị Hạnh">Lê Thị Hạnh</option>';
+            Nguoikhaosat_options_str  += '<option value="Lê Thị Thu Cúc">Lê Thị Thu Cúc</option>';
+            Nguoikhaosat_options_str  += '<option value="Lê Thị Trâm Anh">Lê Thị Trâm Anh</option>';
+            Nguoikhaosat_options_str  += '<option value="Lương Công Hóa">Lương Công Hóa</option>';
+            Nguoikhaosat_options_str  += '<option value="Lủy Thị Phi Yến">Lủy Thị Phi Yến</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Cao Bích Thảo">Nguyễn Cao Bích Thảo</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Hoàng Tú Uyên">Nguyễn Hoàng Tú Uyên</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Hồ Trúc Vy">Nguyễn Hồ Trúc Vy</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Kiều Duyên">Nguyễn Kiều Duyên</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Ngọc Minh Thư">Nguyễn Ngọc Minh Thư</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Ngọc Quỳnh Hương">Nguyễn Ngọc Quỳnh Hương</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Ngọc Thảo Vy">Nguyễn Ngọc Thảo Vy</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Phương Trang">Nguyễn Phương Trang</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thiên an">Nguyễn Thiên an</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Dung">Nguyễn Thị Dung</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Mỹ Linh">Nguyễn Thị Mỹ Linh</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Mỹ Thu">Nguyễn Thị Mỹ Thu</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Phương Nhi">Nguyễn Thị Phương Nhi</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Quỳnh Trang">Nguyễn Thị Quỳnh Trang</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Thanh Huyền">Nguyễn Thị Thanh Huyền</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Thanh Ngọc">Nguyễn Thị Thanh Ngọc</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Thanh Thúy">Nguyễn Thị Thanh Thúy</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Thảo Vân">Nguyễn Thị Thảo Vân</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Thị Xuân">Nguyễn Thị Xuân</option>';
+            Nguoikhaosat_options_str  += '<option value="Nguyễn Đức Thành Công">Nguyễn Đức Thành Công</option>';
+            Nguoikhaosat_options_str  += '<option value="Nhất Anh">Nhất Anh</option>';
+            Nguoikhaosat_options_str  += '<option value="Phan Minh Hiền">Phan Minh Hiền</option>';
+            Nguoikhaosat_options_str  += '<option value="Phan Thị Quỳnh Anh">Phan Thị Quỳnh Anh</option>';
+            Nguoikhaosat_options_str  += '<option value="Phan Tường Thi">Phan Tường Thi</option>';
+            Nguoikhaosat_options_str  += '<option value="Phạm Diệu My">Phạm Diệu My</option>';
+            Nguoikhaosat_options_str  += '<option value="Phạm Thị Hồng Thủy">Phạm Thị Hồng Thủy</option>';
+            Nguoikhaosat_options_str  += '<option value="Quỳnh Trâm">Quỳnh Trâm</option>';
+            Nguoikhaosat_options_str  += '<option value="Sang">Sang</option>';
+            Nguoikhaosat_options_str  += '<option value="Trang">Trang</option>';
+            Nguoikhaosat_options_str  += '<option value="Trương Hoàng Mai">Trương Hoàng Mai</option>';
+            Nguoikhaosat_options_str  += '<option value="Trương Thị Uyên">Trương Thị Uyên</option>';
+            Nguoikhaosat_options_str  += '<option value="Trần Hưng Quỳnh Anh">Trần Hưng Quỳnh Anh</option>';
+            Nguoikhaosat_options_str  += '<option value="Trần Văn Quý">Trần Văn Quý</option>';
+            Nguoikhaosat_options_str  += '<option value="Trần Ánh Tuyêt">Trần Ánh Tuyêt</option>';
+            Nguoikhaosat_options_str  += '<option value="Võ Thị Cát Tường">Võ Thị Cát Tường</option>';
+            Nguoikhaosat_options_str  += '<option value="Đinh Nữ Ngọc Tâm">Đinh Nữ Ngọc Tâm</option>';
+            Nguoikhaosat_options_str  += '<option value="Đoàn Thu Hà">Đoàn Thu Hà</option>';
+            Nguoikhaosat_options_str  += '<option value="Đào Nguyễn Anh Thư">Đào Nguyễn Anh Thư</option>';
+            Nguoikhaosat_options_str  += '<option value="Đặng Thị Huyền Nga">Đặng Thị Huyền Nga</option>';
+            Nguoikhaosat_options_str  += '<option value="Đặng Thị Thu Thảo">Đặng Thị Thu Thảo</option>';
+            sel_Nguoikhaosat.innerHTML = Nguoikhaosat_options_str;
+            div_Nguoikhaosat.appendChild(sel_Nguoikhaosat);
+            var lab_Nguoikhaosat = document.createElement('div');
+            lab_Nguoikhaosat.innerHTML = 'Nguoi khao sat';
+            lab_Nguoikhaosat.className = 'filterlabel';
+            div_Nguoikhaosat.appendChild(lab_Nguoikhaosat);
+            var reset_Nguoikhaosat = document.createElement('div');
+            reset_Nguoikhaosat.innerHTML = 'clear filter';
+            reset_Nguoikhaosat.className = 'filterlabel';
+            reset_Nguoikhaosat.onclick = function() {
+                var options = document.getElementById("sel_Nguoikhaosat").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Nguoikhaosat.appendChild(reset_Nguoikhaosat);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Ykienkhac = document.createElement('div');
+            div_Ykienkhac.id = "div_Ykienkhac";
+            div_Ykienkhac.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Ykienkhac);
+            sel_Ykienkhac = document.createElement('select');
+            sel_Ykienkhac.multiple = true;
+            sel_Ykienkhac.size = 2;
+            sel_Ykienkhac.id = "sel_Ykienkhac";
+            var Ykienkhac_options_str = "<option value='' unselected></option>";
+            sel_Ykienkhac.onchange = function(){filterFunc()};
+            Ykienkhac_options_str  += '<option value="NULL">NULL</option>';
+            Ykienkhac_options_str  += '<option value="Sử dụng ly giấy">Sử dụng ly giấy</option>';
+            sel_Ykienkhac.innerHTML = Ykienkhac_options_str;
+            div_Ykienkhac.appendChild(sel_Ykienkhac);
+            var lab_Ykienkhac = document.createElement('div');
+            lab_Ykienkhac.innerHTML = 'Y kien khac';
+            lab_Ykienkhac.className = 'filterlabel';
+            div_Ykienkhac.appendChild(lab_Ykienkhac);
+            var reset_Ykienkhac = document.createElement('div');
+            reset_Ykienkhac.innerHTML = 'clear filter';
+            reset_Ykienkhac.className = 'filterlabel';
+            reset_Ykienkhac.onclick = function() {
+                var options = document.getElementById("sel_Ykienkhac").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Ykienkhac.appendChild(reset_Ykienkhac);
+        </script>
+    </body>
+</html>
